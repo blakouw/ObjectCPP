@@ -1,0 +1,127 @@
+#include <iostream>
+#include <string>
+#include <stdlib.h>
+#include <time.h> 
+#include <algorithm> 
+
+using namespace std;
+
+class Piosenka {
+    string tytul = "";
+    string piosenkarz = "";
+    int czas = rand() % 200 + 150;
+public:
+    Piosenka(string tytul, string piosenkarz) {
+        this->tytul = tytul;
+        this->piosenkarz = piosenkarz;
+    }
+    Piosenka() {}
+    int getCzas() {
+        return czas;
+    }
+    string getTytul()
+    {
+        return tytul;
+    }
+
+    void prezentuj() {
+        cout << "tytul piosenki: " << tytul << " imie piosenkarza: " << piosenkarz << " czas: " << czas << endl;
+    }
+};
+class PlytaCD {
+    string nazwa=" ";
+    const int liczba;
+    Piosenka* lista = new Piosenka[liczba];
+    int czas=0;
+public:
+    PlytaCD(string nazwa2, int liczba2, Piosenka lista2[]):liczba(liczba2),nazwa(nazwa2),lista(lista2) {
+        
+        for (int i = 0; i < liczba; i++) 
+        {
+            czas+= lista[i].getCzas();
+        }
+        cout << "\nCzas trwania plyty: "<< nazwa << " to: " << czas << endl;
+ 
+        cout << "utworzono nowa plyte" << endl;
+    }
+    int getLiczba() 
+    { 
+        return liczba; 
+    }
+
+    string getNazwa()
+    {
+        return nazwa;
+    }
+
+    PlytaCD();
+    int dlugoscPlyty() {
+        int suma = 0;
+        for (int i = 0; i < liczba;i++) {
+            suma += lista[i].getCzas();
+        }
+        return suma;
+    }
+    ~PlytaCD() {
+        delete[]lista;
+    }
+    Piosenka* getLista()
+    {
+        return lista;
+    }
+    void prezentuj() {
+
+        cout << "nazwa plyty: " << nazwa << " liczba utworow : " << liczba << "\n\n";
+        for (int i = 0; i < liczba; i++)
+        {
+            lista[i].prezentuj();
+        }
+    }
+
+};
+void szuk(PlytaCD a1, PlytaCD a2)
+{
+    string plyta;
+    int max_czas = 0;
+    string tyt;
+
+    for (int i = 0; i < a1.getLiczba(); i++)
+    {
+        if (a1.getLista()[i].getCzas() > max_czas)
+        {
+            plyta = a1.getNazwa();
+            tyt = a1.getLista()[i].getTytul();
+            max_czas = a1.getLista()[i].getCzas();
+        }
+    }
+
+    for (int i = 0; i < a2.getLiczba(); i++)
+    {
+        if (a2.getLista()[i].getCzas() > max_czas)
+        {
+            plyta = a2.getNazwa();
+            tyt = a2.getLista()[i].getTytul();
+            max_czas = a2.getLista()[i].getCzas();
+        }
+    }
+
+
+    cout << "plyta: " << plyta << "\tczas: " << max_czas << "\ttytul: " << tyt << endl;
+}
+
+
+int main() {
+    srand((int) time(0));
+    Piosenka lista1[2] = { Piosenka("Firework", "Katty perry"), Piosenka("Patoreakcja", "mata") };
+    PlytaCD aleon("All eyes on me", 2, lista1);
+    Piosenka lista2[3] = { Piosenka("Part of me", "katty perry"), Piosenka("patointeligencja", "mata"), Piosenka("@", "Chillwagon") };
+    PlytaCD sarna("sarna", 3, lista2);
+    
+    aleon.prezentuj();
+    sarna.prezentuj();
+    
+    szuk(aleon, sarna);
+
+    return 0;
+
+}
