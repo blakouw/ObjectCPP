@@ -1,0 +1,142 @@
+#include<stdlib.h>
+#include <iostream>
+#include <string>
+
+
+using namespace std;
+
+class Produkt
+{
+	string nazwa;
+	double cena=0;
+	
+public:
+	string getNazwa() 
+	{
+    	return nazwa;
+	}
+
+	double getCena() 
+	{
+    	return cena;
+	}
+	
+	void setNazwa(string n) 
+	{
+   		nazwa = n;
+	}
+
+	void setCena(double c) 
+	{
+    	cena = c;
+	}
+
+
+	Produkt(string produktNazwa, double produktCena)// konstruktor
+	{
+	setNazwa(produktNazwa);
+    setCena(produktCena);
+	}
+	
+};
+
+
+class koszyk
+{
+	int numerkosz=0;
+	const int limit=10;
+	int iloscprod = 0;
+    Produkt* produktTab[3];
+    int tabEnd;
+
+public:
+	
+	void wypisz()
+    {
+        cout << "Lista produktow:\n";
+
+
+        for (int i = 0; i < iloscprod; i++)
+        {
+            cout << produktTab[i]->getNazwa() << " " << produktTab[i]->getCena() << endl;
+        }
+        cout << "\n\n";
+    }
+    
+	void setNumer_koszyka(int n)
+    {
+        numerkosz = n;
+    }
+
+
+    int getNumer_koszyka()
+    {
+        return numerkosz;
+    }
+
+    void dodProdukt(Produkt *aktProdukt) 
+	{
+    produktTab[tabEnd] = aktProdukt;
+    tabEnd++;
+	}	
+    double wartoscKoszyka() 
+	{
+    	double wartoscKoszyka=0;
+
+    	for (int i=0; i<3; i++) {
+       		if (produktTab[i] != 0)
+			    {
+            	wartoscKoszyka += produktTab[i]->getCena(); 
+        		} 
+			else 
+			{
+           		break;
+        	}
+        	return wartoscKoszyka;
+    }
+    
+   
+    
+}
+
+	koszyk(int numer)
+    {
+    	setNumer_koszyka(numer);
+	}
+
+
+};
+
+int main()
+{
+	koszyk* kosz= new koszyk(1);
+	cout << kosz->getNumer_koszyka() << " " <<"\n\n";
+	
+	
+	Produkt* prod1 = new Produkt("Chleb", 3.99);
+	Produkt* prod2 = new Produkt("Pepsi", 7.99);
+	Produkt* prod3 = new Produkt("Mleko", 12.99);
+	cout << prod1->getNazwa() << " " << prod1->getCena() <<" " << "\n\n";
+	cout << prod2->getNazwa() << " " << prod2->getCena() <<" " << "\n\n";
+	cout << prod3->getNazwa() << " " << prod3->getCena() <<" " << "\n\n";
+	
+	koszyk* kosz2= new koszyk(2);
+	cout << kosz2->getNumer_koszyka() << " " <<"\n\n";
+	
+	Produkt* prod4 = new Produkt("Pan Tadeusz", 24.99);
+	cout << prod4->getNazwa() << " " << prod4->getCena() <<" " << "\n\n";
+	
+	kosz->dodProdukt(prod1);
+	kosz->dodProdukt(prod2);
+	kosz->dodProdukt(prod3);
+
+	kosz2->dodProdukt(prod4);
+	
+	cout<<kosz->wartoscKoszyka()<<" "<<"\n\n";
+	cout<<kosz2->wartoscKoszyka()<<" "<<"\n\n";
+	
+	kosz->wypisz();
+	kosz2->wypisz();
+	
+
+}
